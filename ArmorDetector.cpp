@@ -1,6 +1,9 @@
 #include "ArmorDetector.hpp"
 
 
+//#define setImage_debug
+//#define findTargetInContours_debug
+//#define chooseTarget_debug
 void armor::drawRotateRect(Mat &img, RotatedRect &r_rect){
     Point2f pt[4];
     r_rect.points(pt);
@@ -50,16 +53,32 @@ void ArmorDetector::setImage(const Mat &src){
             _src=src;
         }
     }
-#ifdef setImage_debug
-    Mat tmp_src;
+//#ifdef setImage_debug
+//    Mat tmp_src;
 
-    src.copyTo(tmp_src);
-    //            tmp_src=src;
+//    src.copyTo(tmp_src);
+//    //            tmp_src=src;
 
-    rectangle(tmp_src,_dect_rect,Scalar(128,128,0),2);
-    imshow("roi_rect",tmp_src);
-#endif
+//    rectangle(tmp_src,_dect_rect,Scalar(128,128,0),2);
+//    imshow("roi_rect",tmp_src);
+//#endif
     if(_param.enermy_color==armor::RED){
+        Mat thres_whole;
+        vector<Mat> splited;
+        split(_src, splited);
+        cvtColor(_src, thres_whole, CV_BGR2GRAY);
+        threshold(thres_whole, thres_whole, _param.red_sentry_gray_thres, 255, THRESH_BINARY); //gray threshold
+//#ifdef setImage_debug
+//        imshow("thres_whole",thres_whole);
+//#endif
+        subtract(splited[2],splited[0],_max_color);
+        threshold(_max_color,_max_color,_param.red_sentry_color_thres,255,THRESH_BINARY);
+        dilate(_max_color,_max_color,element);
+        _max_color=_max_color&thres_whole;
+        dilate(_max_color, _max_color, element2);
+#ifdef setImage_debug
+        imshow("_max_color",_max_color);
+#endif
 
     }else{
         Mat thres_whole;

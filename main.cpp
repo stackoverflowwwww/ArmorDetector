@@ -9,7 +9,9 @@ int main()
 {
     ArmorDetector armor_detector;
     Mat frame;
-    string video_filename="/home/wenmingbang_2019152030/dataset/2019-5-16-13-27-4.avi";
+//    string video_filename="/home/wenmingbang_2019152030/dataset/blue.avi";
+    string video_filename="/home/wenmingbang_2019152030/dataset/red.avi";
+    armor_detector.set_enermy_color(armor::RED);
     VideoCapture cap(video_filename);
     int i=1;
     bool stop=true;

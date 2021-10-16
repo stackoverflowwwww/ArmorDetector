@@ -10,9 +10,6 @@ using namespace cv;
 using namespace std;
 #define POINT_DIST(p1,p2) std::sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
 
-//#define setImage_debug
-//#define findTargetInContours_debug
-//#define chooseTarget_debug
 namespace armor {
 enum EnermyColor{RED,BLUE};
 // 匹配灯条的结构体
@@ -32,7 +29,9 @@ namespace  {
 struct ArmorParam{
     armor::EnermyColor enermy_color=armor::BLUE;
     int blue_sentry_gray_thres=60;
+    int red_sentry_gray_thres=33;
     int blue_sentry_color_thres=46;
+    int red_sentry_color_thres=blue_sentry_color_thres-6;
     double light_left_angle=45.0;// \这中情形
     double light_right_angle=60.0;// /这种情形
     int min_light_height=8;
